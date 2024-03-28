@@ -1,30 +1,37 @@
 // lib/models/resultat.dart
 class Resultat {
-  String id;
-  String userId;
+  int id;
+  String user;
   String niveau;
   String datetime;
-  String objetId;
+  int Id_O;
 
-  Resultat({required this.id,required this.userId,required this.niveau,required this.datetime,required this.objetId});
+  Resultat({required this.id,required this.user,required this.niveau,required this.datetime,required this.Id_O});
 
-  factory Resultat.fromJson(Map<String, dynamic> json) {
-    return Resultat(
-      id: json['id_R'],
-      userId: json['user'],
-      niveau: json['niveau'],
-      datetime: json['datetime'],
-      objetId: json['id_O'],
-    );
-  }
-
-  Map<String, Object?> toJson() {
-    return {
-      'id_R': id,
-      'user': userId,
+  Map<String, Object?> toMap() {
+    var map = <String, Object?>{
+      'user': user,
       'niveau': niveau,
       'datetime': datetime,
-      'id_O': objetId,
+      'Id_O': Id_O,
     };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
   }
+
+  Resultat.fromMap(Map<String, Object?> map) : this(
+    id: map['id'] as int,
+    user: map['user'] as String,
+    niveau: map['niveau'] as String,
+    datetime: map['datetime'] as String,
+    Id_O: map['Id_O'] as int,
+  );
+
+  @override
+  String toString() {
+    return 'Resultat{id: $id, user: $user, niveau: $niveau, datetime: $datetime, Id_O: $Id_O}';
+  }
+
 }

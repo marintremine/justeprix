@@ -1,6 +1,6 @@
 // lib/models/objet.dart
 class Objet {
-  String id;
+  int id;
   String nom;
   String image;
   String description;
@@ -8,14 +8,32 @@ class Objet {
 
   Objet({required this.id,required this.nom,required this.image,required this.description,required this.prix});
 
-  factory Objet.fromJson(Map<String, dynamic> json) {
-    return Objet(
-      id: json['id_O'],
-      nom: json['nom'],
-      image: json['image'],
-      description: json['description'],
-      prix: json['prix'],
-    );
+  Map<String, Object?> toMap() {
+    var map = <String, Object?>{
+      'nom': nom,
+      'image': image,
+      'description': description,
+      'prix': prix,
+    };
+    if (id != null) {
+      map['id'] = id;
+    }
+    return map;
+  }
+
+Objet.fromMap(Map<String, Object?> map) : this(
+    id: map['id'] as int,
+    nom: map['nom'] as String,
+    image: map['image'] as String,
+    description: map['description'] as String,
+    prix: map['prix'] as int,
+  );
+
+  @override
+  String toString() {
+    return 'Objet{id: $id, nom: $nom, image: $image, description: $description, prix: $prix}';
   }
 }
+
+
 
