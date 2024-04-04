@@ -1,19 +1,23 @@
-// lib/models/resultat.dart
-class Resultat {
-  int id;
-  String user;
-  String niveau;
-  String datetime;
-  int Id_O;
 
-  Resultat({required this.id,required this.user,required this.niveau,required this.datetime,required this.Id_O});
+class Resultat {
+  int? id;
+  String user;
+  String difficulte;
+  String datetime;
+  int temps;
+  int victoire;
+  int id_O;
+
+  Resultat({this.id,required this.user,required this.difficulte,required this.datetime,required this.temps,required this.victoire,required this.id_O});
 
   Map<String, Object?> toMap() {
     var map = <String, Object?>{
       'user': user,
-      'niveau': niveau,
+      'difficulte': difficulte,
       'datetime': datetime,
-      'Id_O': Id_O,
+      'temps': temps,
+      'victoire': victoire,
+      'id_O': id_O,
     };
     if (id != null) {
       map['id'] = id;
@@ -24,14 +28,16 @@ class Resultat {
   Resultat.fromMap(Map<String, Object?> map) : this(
     id: map['id'] as int,
     user: map['user'] as String,
-    niveau: map['niveau'] as String,
+    difficulte: map['difficulte'] as String,
     datetime: map['datetime'] as String,
-    Id_O: map['Id_O'] as int,
+    temps: map['temps'] as int,
+    victoire: map['victoire'] as int,
+    id_O: map['id_O'] as int,
   );
 
   @override
   String toString() {
-    return 'Resultat{id: $id, user: $user, niveau: $niveau, datetime: $datetime, Id_O: $Id_O}';
+    return 'Resultat{id: $id, user: $user, niveau: $difficulte, datetime: $datetime, id_O: $id_O}';
   }
 
 }

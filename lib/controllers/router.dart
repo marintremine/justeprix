@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:justeprix2/views/accueil.dart';
 import 'package:justeprix2/views/classement.dart';
 import 'package:justeprix2/views/jeu.dart';
+import 'package:justeprix2/views/regles.dart';
 
 class NavigationHelper {
   static late final GoRouter router;
@@ -42,13 +43,18 @@ class NavigationHelper {
       ),
       GoRoute(
         name: 'jeu',
-        path: '/jeu/:nom',
-        pageBuilder: (context, state) => getPage(child:  JeuPage(nom: state.pathParameters['nom'] ?? ''), state: state),
+        path: '/jeu/:nom/:difficulty',
+        pageBuilder: (context, state) => getPage(child:  JeuPage(nom: state.pathParameters['nom'] ?? '', difficulty: state.pathParameters['difficulty'] ?? ''), state: state),
       ),
       GoRoute(
         name: 'classement',
-        path: '/classement',
-        pageBuilder: (context, state) => getPage(child: const ClassementPage(), state: state),
+        path: '/classement/:nom',
+        pageBuilder: (context, state) => getPage(child: ClassementPage(nom: state.pathParameters['nom'] ?? ''), state: state),
+      ),
+      GoRoute(
+        name: 'regles',
+        path: '/regles',
+        pageBuilder: (context, state) => getPage(child: const ReglesPage(), state: state),
       ),
     ];
     router = GoRouter(

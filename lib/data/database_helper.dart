@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:ffi';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -26,7 +27,7 @@ class DatabaseHelper {
 
   Future<Database> initDatabase() async {
     String path = join(await getDatabasesPath(), 'scores.db');
-    return await openDatabase(path, version: 1, onCreate: _createDatabase);
+    return await openDatabase(path, version: 2, onCreate: _createDatabase);
   }
 
   Future<void> _createDatabase(Database db, int version) async {
@@ -41,13 +42,21 @@ class DatabaseHelper {
     ''');
     await db.execute('''
       CREATE TABLE resultat (
-        id INTEGER PRIMARY KEY,
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         user TEXT,
-        niveau TEXT,
+        difficulte TEXT,
         datetime TEXT,
+        temps INTEGER,
+        victoire INTEGER,
         id_O INTEGER,
         FOREIGN KEY (id_O) REFERENCES objet (id)
       )
+    ''');
+    await db.execute('''
+      INSERT INTO objet (nom, image, description, prix) VALUES 
+      ('Lave-linge', 'lavelinge.png', 'un lave-linge', 450), 
+      ('Voiture', 'voiture.png', 'Kia Picanto 2023', 15800),
+      ('Skate', 'skate.jpg', 'Skate', 75);
     ''');
   }
 
@@ -68,7 +77,7 @@ class DatabaseHelper {
     return results.map((result) => Objet.fromMap(result)).toList();
   }
 
-  Future<Objet> getObjetById(String id) async {
+  Future<Objet> getObjetById(int id) async {
     Database db = await database;
     List<Map<String, Object?>> results = await db.query('objet', where: 'id = ?', whereArgs: [id]);
     return Objet.fromMap(results.first);
@@ -97,6 +106,12 @@ class DatabaseHelper {
   Future<List<Resultat>> getAllResultat() async {
     Database db = await database;
     List<Map<String, Object?>> results = await db.query('resultat');
+    return results.map((result) => Resultat.fromMap(result)).toList();
+  }
+
+  Future<List<Resultat>> getResultatByUser(String user) async {
+    Database db = await database;
+    List<Map<String, Object?>> results = await db.query('resultat', where: 'user = ?', whereArgs: [user]);
     return results.map((result) => Resultat.fromMap(result)).toList();
   }
 

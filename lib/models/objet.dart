@@ -1,4 +1,4 @@
-// lib/models/objet.dart
+
 class Objet {
   int id;
   String nom;
